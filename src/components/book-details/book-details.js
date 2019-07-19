@@ -6,6 +6,8 @@ export default class BookDetails extends Component {
   constructor() {
     super();
 
+    //const index = bookData.findIndex((el) => el.isbn === isbn);
+
     this.state={
       author: '',
       name: '',
@@ -39,31 +41,42 @@ export default class BookDetails extends Component {
     });
   };
 
+  onNoteChange = (evt) => {
+    this.setState({
+      note: evt.target.value
+    });
+  };
+
   onSubmit = (evt) => {
     evt.preventDefault();
-    const { author, name, year, isbn } = this.state;
-    this.props.onItemAdded(author, name, year, isbn);
+    const { author, name, year, isbn, note } = this.state;
+    this.props.onItemEdit(author, name, year, isbn, note);
   };
 
   render() {
     return (
-      <form className='book-details book-details__inactive'
+      <form className='book-details'
         onSubmit={this.onSubmit}>
         <h4>Редактировать данные о книге</h4>
         <div className='book-details__wrap d-flex'>
           <input type='text'
             className='form-control book-details__input'
+            onChange={this.onAuthorChange}
             value={this.state.author} />
           <input type='text'
             className='form-control book-details__name'
+            onChange={this.onNameChange}
             value={this.state.name} />
           <input type='number'
             className='form-control book-details__input'
+            onChange={this.onYearChange}
             value={this.state.year} />
           <input type='text'
             className='form-control book-details__input'
+            onChange={this.onIsbnChange}
             value={this.state.isbn} />
           <textarea className='form-control book-details__textarea'
+            onChange={this.onNoteChange}
             value={this.state.note} />
         </div>
         <button className='btn btn-outline-secondary book-details__btn'>

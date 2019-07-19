@@ -71,6 +71,13 @@ export default class App extends Component {
     });
   };
 
+  editItem = (isbn) => {
+    const {bookData} = this.state;
+    const index = bookData.findIndex((el) => el.isbn === isbn);
+    console.log('тут сейчас я буду редактировать книгу', isbn, index);
+    return index;
+  };
+
   deletedItem = (isbn) => {
     this.setState(({ bookData }) => {
       const index = bookData.findIndex((el) => el.isbn === isbn);
@@ -84,10 +91,6 @@ export default class App extends Component {
         bookData: newArray
       }
     });
-  };
-
-  showDetails = () => {
-
   };
 
   onSearchChange = (term) => {
@@ -116,11 +119,11 @@ export default class App extends Component {
           book={bookCount}
           onSearchChange={ this.onSearchChange } />
         <BookList
-          books = { visibleItems }
-          onDeleted={ this.deletedItem }
-          onShowDetail={ this.showDetail} />
+          books={ visibleItems }
+          onEdit={ this.editItem }
+          onDeleted={ this.deletedItem } />
         <BookDetails
-          onItemDetails={this.detailsItem}/>
+          onItemEdit={this.editItem}/>
         <BookAddForm
           onItemAdded={this.addItem} />
       </div>

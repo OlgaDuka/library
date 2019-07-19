@@ -2,12 +2,12 @@ import React from 'react';
 
 import './book-list-item.css';
 
-const BookListItem = ({author, name, onDeleted}) => {
+const BookListItem = ({author, name, onEdit, onDeleted}) => {
   return (
     <span className="book-list-item" >
-      <span>{author}. "{name}."</span>
-
-
+      <span onClick={ onEdit } >
+        {author}. "{name}."
+      </span>
       <button type="button"
               className="btn btn-outline-danger btn-sm float-right">
               <i className="fa fa-trash-o"
