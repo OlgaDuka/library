@@ -3,17 +3,15 @@ import React, { Component } from 'react';
 import './book-details.css';
 
 export default class BookDetails extends Component {
-  constructor() {
+  constructor({book, id}) {
     super();
 
-    //const index = bookData.findIndex((el) => el.isbn === isbn);
-
     this.state={
-      author: '',
-      name: '',
-      year: '',
-      isbn: '',
-      note: ''
+      author: book.author,
+      name: book.name,
+      year: book.year,
+      isbn: id,
+      note: book.note
     };
   }
 
@@ -50,14 +48,21 @@ export default class BookDetails extends Component {
   onSubmit = (evt) => {
     evt.preventDefault();
     const { author, name, year, isbn, note } = this.state;
-    this.props.onItemEdit(author, name, year, isbn, note);
+    this.props.onItemSaved(author, name, year, isbn, note);
+    this.setState({
+      author: '',
+      name: '',
+      year: '',
+      isbn: '',
+      note: ''
+    });
   };
 
   render() {
     return (
       <form className='book-details'
         onSubmit={this.onSubmit}>
-        <h4>Редактировать данные о книге</h4>
+        <h4>Информация о книге</h4>
         <div className='book-details__wrap d-flex'>
           <input type='text'
             className='form-control book-details__input'
@@ -67,7 +72,7 @@ export default class BookDetails extends Component {
             className='form-control book-details__name'
             onChange={this.onNameChange}
             value={this.state.name} />
-          <input type='number'
+          <input type='text'
             className='form-control book-details__input'
             onChange={this.onYearChange}
             value={this.state.year} />

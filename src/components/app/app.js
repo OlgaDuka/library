@@ -14,13 +14,17 @@ export default class App extends Component {
 
     this.state = {
       bookData: [
-        this.createBookItem('Макс Фрай', 'Мастер ветров и закатов', 2014, '978-5-17-087268-8'),
-        this.createBookItem('Пауло Коэльо', 'Манускрипт, найденный в Акко', 2012, '978-5-17-077619-1'),
-        this.createBookItem('Вера Полозкова', 'Непоэмание', 2011, '978-5-904584-61-0'),
-        this.createBookItem('Франц Кафка', 'Америка. Процесс', 1991, '5-250-01696-0')
+        this.createBookItem('Макс Фрай', 'Мастер ветров и закатов', '2014', '978-5-17-087268-8'),
+        this.createBookItem('Пауло Коэльо', 'Манускрипт, найденный в Акко', '2012', '978-5-17-077619-1'),
+        this.createBookItem('Вера Полозкова', 'Непоэмание', '2011', '978-5-904584-61-0'),
+        this.createBookItem('Франц Кафка', 'Америка. Процесс', '1991', '5-250-01696-0')
       ],
-      term: ''
+      term: '',
+      id: '',
+      isEdit: false
     };
+
+    this.state.id = this.state.bookData[0].isbn;
   }
 
   createBookItem = (author, name, year, isbn) => {
@@ -29,6 +33,7 @@ export default class App extends Component {
       name,
       year,
       isbn,
+      note: ''
     };
   };
 
@@ -47,18 +52,19 @@ export default class App extends Component {
     });
   };
 
-  saveItem = (author, name, year, isbn, note) => {
-    this.setState(({ bookData }) => {
-      const index = bookData.findIndex((el) => el.isbn === isbn);
+  saveItem = (author, name, year, isbn, note, id) => {
+    this.setState(({ bookData, isEdit }) => {
+      const index = bookData.findIndex((el) => el.isbn === id);
       const oldItem = bookData[index];
       const newItem = {...oldItem,
-                        [author]: author,
-                        [name]: name,
-                        [year]: year,
-                        [isbn]: isbn,
-                        [note]: note
+                        author: author,
+                        name: name,
+                        year: year,
+                        isbn: isbn,
+                        note: note
                       };
 
+      console.log(oldItem, newItem, isEdit);
       const newArray = [
         ...bookData.slice(0, index),
         newItem,
@@ -66,16 +72,18 @@ export default class App extends Component {
       ];
 
       return {
-        bookData: newArray
+        bookData: newArray,
+        isEdit: false
       }
     });
   };
 
+  readItem = (isbn) => {
+    this.setState({ id: isbn, isEdit: false });
+  };
+
   editItem = (isbn) => {
-    const {bookData} = this.state;
-    const index = bookData.findIndex((el) => el.isbn === isbn);
-    console.log('тут сейчас я буду редактировать книгу', isbn, index);
-    return index;
+    this.setState({ id: isbn, isEdit: true });
   };
 
   deletedItem = (isbn) => {
@@ -91,6 +99,10 @@ export default class App extends Component {
         bookData: newArray
       }
     });
+  };
+
+  onEdit = () => {
+    this.setState({isEdit: true});
   };
 
   onSearchChange = (term) => {
@@ -109,21 +121,26 @@ export default class App extends Component {
   };
 
   render() {
-    const { bookData, term } = this.state;
+    const { bookData, term, id, isEdit } = this.state;
     const visibleItems = this.search(bookData, term);
     const bookCount = visibleItems.length;
+    const index = bookData.findIndex((el) => el.isbn === id);
     return (
       <div className='app__content'>
         <Header />
         <SearchPanel
-          book={bookCount}
+          bookNum={bookCount}
           onSearchChange={ this.onSearchChange } />
         <BookList
           books={ visibleItems }
+          onRead={ this.readItem }
           onEdit={ this.editItem }
           onDeleted={ this.deletedItem } />
-        <BookDetails
-          onItemEdit={this.editItem}/>
+        {isEdit ? <BookDetails
+          book={bookData[index]}
+          id={id}
+          onEdit={this.onEdit}
+          onItemSaved={this.saveItem} /> : null}
         <BookAddForm
           onItemAdded={this.addItem} />
       </div>

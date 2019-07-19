@@ -18,7 +18,7 @@ export default class SearchPanel extends Component {
   };
 
   render() {
-    const { book } = this.props;
+    const { bookNum } = this.props;
     return (
       <div className='search-panel d-flex'>
         <input type='text'
@@ -26,7 +26,7 @@ export default class SearchPanel extends Component {
               onChange={this.onSearchChange}
               placeholder='Введите текст для поиска'
               value={this.state.term} />
-        <h4 className="search-panel__subtitle">Количество книг - {book}шт.</h4>
+        <h4 className="search-panel__subtitle">Количество книг - {bookNum}шт.</h4>
       </div>
     );
   };

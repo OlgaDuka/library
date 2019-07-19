@@ -15,8 +15,17 @@
   border-radius: 4px;
 }
 
+.book-details__wrap-btn {
+  margin-top: 5px;
+  padding: 5px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+
 .book-details__btn {
   margin-top: 3px;
+  margin-left: 3px;
   align-self: flex-end;
 }
 
