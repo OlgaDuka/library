@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 import './header.css';
 
-export default class Header extends Component {
-  render() {
-    return (
-      <div>
-        <h1>Домашняя библиотека</h1>
-      </div>  
-    )
-  };
-}
+const Header = () => {
+  return (
+    <div className="header d-flex">
+      <h1 className="header__title">Домашняя библиотека</h1>
+    </div>
+  )
+};
+
+export default Header;

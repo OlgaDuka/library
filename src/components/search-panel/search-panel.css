@@ -1,0 +1,14 @@
+.search-panel {
+  margin-bottom: 5px;
+}
+
+.search-panel__input {
+  margin-right: 5px;
+  width: auto;
+  flex-grow: 1;
+}
+
+.search-panel__subtitle {
+  align-self: flex-end;
+  margin-right: 10px;
+}

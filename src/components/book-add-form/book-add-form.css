@@ -1,25 +1,26 @@
-.book-details {
+.book-add-form {
   flex-direction: column;
 }
 
-.book-details__wrap {
+.book-add-form__wrap {
   margin-top: 5px;
   padding: 5px;
   flex-wrap: wrap;
   border: 1px solid gray;
+  border-radius: 4px;
 }
 
-.book-details__btn {
+.book-add-form__btn {
   margin-top: 3px;
   align-self: flex-end;
 }
 
-.book-details__input {
+.book-add-form__input {
   margin: 3px;
   width: auto;
 }
 
-.book-details__name {
+.book-add-form__name {
   margin: 3px;
   flex-grow: 1;
 }
