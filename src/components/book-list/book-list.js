@@ -5,12 +5,12 @@ import './book-list.css';
 
 const BookList = ({books, onDeleted}) => {
   const elements = books.map((item) => {
-    const { id, ...itemProps } = item;
+    const { isbn, ...itemProps } = item;
 
     return (
-      <li key={ id } className="list-group-item">
+      <li key={ isbn } className="list-group-item">
         <BookListItem { ...itemProps }
-        onDeleted={() => onDeleted(id)} />
+        onDeleted={() => onDeleted(isbn)} />
       </li>
     );
   });

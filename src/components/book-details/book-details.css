@@ -1,5 +1,10 @@
 .book-details {
+  display: flex;
   flex-direction: column;
+}
+
+.book-details__inactive {
+  display: none;
 }
 
 .book-details__wrap {
@@ -7,6 +12,7 @@
   padding: 5px;
   flex-wrap: wrap;
   border: 1px solid gray;
+  border-radius: 4px;
 }
 
 .book-details__btn {
@@ -22,4 +28,9 @@
 .book-details__name {
   margin: 3px;
   flex-grow: 1;
+}
+
+.book-details__textarea {
+  margin: 3px;
+  width: 100%;
 }

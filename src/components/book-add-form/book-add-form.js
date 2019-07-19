@@ -10,7 +10,7 @@ export default class BookAddForm extends Component {
       author: '',
       name: '',
       year: '',
-      id: ''
+      isbn: ''
     };
   }
 
@@ -34,19 +34,19 @@ export default class BookAddForm extends Component {
 
   onIsbnChange = (evt) => {
     this.setState({
-      id: evt.target.value
+      isbn: evt.target.value
     });
   };
 
   onSubmit = (evt) => {
     evt.preventDefault();
-    const { author, name, year, id } = this.state;
-    this.props.onItemAdded(author, name, year, id);
+    const { author, name, year, isbn } = this.state;
+    this.props.onItemAdded(author, name, year, isbn);
     this.setState({
       author: '',
       name: '',
       year: '',
-      id: ''
+      isbn: ''
     });
   };
 
@@ -59,26 +59,26 @@ export default class BookAddForm extends Component {
           <input type='text'
             className='form-control book-add-form__input'
             onChange={this.onAuthorChange}
-            placeholder='Author'
+            placeholder='Автор'
             value={this.state.author}
             required />
           <input type='text'
             className='form-control book-add-form__name'
             onChange={this.onNameChange}
-            placeholder='Name'
+            placeholder='Наименование'
             value={this.state.name}
             required />
           <input type='text'
             className='form-control book-add-form__input'
             onChange={this.onYearChange}
-            placeholder='Year'
+            placeholder='Год издания'
             value={this.state.year}
             required />
           <input type='text'
             className='form-control book-add-form__input'
             onChange={this.onIsbnChange}
             placeholder='ISBN'
-            value={this.state.id}
+            value={this.state.isbn}
             required />
         </div>
         <button className='btn btn-outline-secondary book-add-form__btn'>

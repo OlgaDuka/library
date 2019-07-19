@@ -4,6 +4,7 @@ import Header from '../header';
 import SearchPanel from '../search-panel';
 import BookAddForm from '../book-add-form';
 import BookList from '../book-list';
+import BookDetails from '../book-details';
 
 import './app.css';
 
@@ -27,7 +28,7 @@ export default class App extends Component {
       author,
       name,
       year,
-      id: isbn,
+      isbn,
     };
   };
 
@@ -46,9 +47,33 @@ export default class App extends Component {
     });
   };
 
-  deletedItem = (id) => {
+  saveItem = (author, name, year, isbn, note) => {
     this.setState(({ bookData }) => {
-      const index = bookData.findIndex((el) => el.id === id);
+      const index = bookData.findIndex((el) => el.isbn === isbn);
+      const oldItem = bookData[index];
+      const newItem = {...oldItem,
+                        [author]: author,
+                        [name]: name,
+                        [year]: year,
+                        [isbn]: isbn,
+                        [note]: note
+                      };
+
+      const newArray = [
+        ...bookData.slice(0, index),
+        newItem,
+        ...bookData.slice(index + 1)
+      ];
+
+      return {
+        bookData: newArray
+      }
+    });
+  };
+
+  deletedItem = (isbn) => {
+    this.setState(({ bookData }) => {
+      const index = bookData.findIndex((el) => el.isbn === isbn);
 
       const newArray = [
         ...bookData.slice(0, index),
@@ -61,6 +86,10 @@ export default class App extends Component {
     });
   };
 
+  showDetails = () => {
+
+  };
+
   onSearchChange = (term) => {
     this.setState({ term });
   };
@@ -71,7 +100,8 @@ export default class App extends Component {
     }
 
     return books.filter((el) => {
-      return el.name.toLowerCase().indexOf(term.toLowerCase()) > -1;
+      return (el.author.toLowerCase().indexOf(term.toLowerCase()) > -1) ||
+             (el.name.toLowerCase().indexOf(term.toLowerCase()) > -1);
     });
   };
 
@@ -82,12 +112,15 @@ export default class App extends Component {
     return (
       <div className='app__content'>
         <Header />
-        <SearchPanel className='search__panel'
+        <SearchPanel
           book={bookCount}
           onSearchChange={ this.onSearchChange } />
         <BookList
           books = { visibleItems }
-          onDeleted={ this.deletedItem } />
+          onDeleted={ this.deletedItem }
+          onShowDetail={ this.showDetail} />
+        <BookDetails
+          onItemDetails={this.detailsItem}/>
         <BookAddForm
           onItemAdded={this.addItem} />
       </div>

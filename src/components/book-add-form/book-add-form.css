@@ -2,6 +2,10 @@
   flex-direction: column;
 }
 
+.book-add-form__inactive {
+  display: none;
+}
+
 .book-add-form__wrap {
   margin-top: 5px;
   padding: 5px;
