@@ -2,7 +2,7 @@ import React from 'react';
 
 import './book-list-item.css';
 
-const BookListItem = ({author, name, onRead, onEdit, onDeleted}) => {
+const BookListItem = ({author, name, onEdit, onDeleted}) => {
   return (
     <span className="book-list-item" >
       <span>
@@ -17,11 +17,6 @@ const BookListItem = ({author, name, onRead, onEdit, onDeleted}) => {
               className="btn btn-outline-danger btn-sm float-right">
               <i className="fa fa-pencil"
               onClick={ onEdit } />
-      </button>
-      <button type="button"
-              className="btn btn-outline-danger btn-sm float-right">
-              <i className="fa fa-book"
-              onClick={ onRead } />
       </button>
     </span>
   );

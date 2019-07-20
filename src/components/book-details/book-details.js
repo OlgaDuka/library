@@ -3,15 +3,15 @@ import React, { Component } from 'react';
 import './book-details.css';
 
 export default class BookDetails extends Component {
-  constructor({book, id}) {
+  constructor({bookEdit, id}) {
     super();
 
     this.state={
-      author: book.author,
-      name: book.name,
-      year: book.year,
+      author: bookEdit.author,
+      name: bookEdit.name,
+      year: bookEdit.year,
       isbn: id,
-      note: book.note
+      note: bookEdit.note
     };
   }
 
@@ -48,7 +48,7 @@ export default class BookDetails extends Component {
   onSubmit = (evt) => {
     evt.preventDefault();
     const { author, name, year, isbn, note } = this.state;
-    this.props.onItemSaved(author, name, year, isbn, note);
+    this.props.onItemSaved(author, name, year, isbn, note, isbn);
     this.setState({
       author: '',
       name: '',
@@ -58,10 +58,21 @@ export default class BookDetails extends Component {
     });
   };
 
+  onCancel = () => {
+    this.props.onItemCancelSaved();
+    this.setState({
+      author: '',
+      name: '',
+      year: '',
+      isbn: '',
+      note: ''
+    });
+  }
+
   render() {
     return (
       <form className='book-details'
-        onSubmit={this.onSubmit}>
+        onSubmit={this.onSubmit} >
         <h4>Информация о книге</h4>
         <div className='book-details__wrap d-flex'>
           <input type='text'
@@ -84,9 +95,15 @@ export default class BookDetails extends Component {
             onChange={this.onNoteChange}
             value={this.state.note} />
         </div>
-        <button className='btn btn-outline-secondary book-details__btn'>
+        <div className='book-details__wrap-btn d-flex'>
+          <button className='btn btn-outline-secondary book-details__btn'>
             Сохранить
-        </button>
+          </button>
+          <button className='btn btn-outline-secondary book-details__btn'
+            onClick={this.onCancel}>
+            Отменить
+          </button>
+        </div>
       </form>
     );
   }

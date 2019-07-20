@@ -70,6 +70,7 @@ export default class App extends Component {
         newItem,
         ...bookData.slice(index + 1)
       ];
+      console.log('Новый массив ', newArray);
 
       return {
         bookData: newArray,
@@ -78,8 +79,8 @@ export default class App extends Component {
     });
   };
 
-  readItem = (isbn) => {
-    this.setState({ id: isbn, isEdit: false });
+  cancelSaveItem = () => {
+    this.setState({ isEdit: false })
   };
 
   editItem = (isbn) => {
@@ -125,6 +126,7 @@ export default class App extends Component {
     const visibleItems = this.search(bookData, term);
     const bookCount = visibleItems.length;
     const index = bookData.findIndex((el) => el.isbn === id);
+    const book = bookData[index];
     return (
       <div className='app__content'>
         <Header />
@@ -133,14 +135,13 @@ export default class App extends Component {
           onSearchChange={ this.onSearchChange } />
         <BookList
           books={ visibleItems }
-          onRead={ this.readItem }
           onEdit={ this.editItem }
           onDeleted={ this.deletedItem } />
         {isEdit ? <BookDetails
-          book={bookData[index]}
+          bookEdit={book}
           id={id}
-          onEdit={this.onEdit}
-          onItemSaved={this.saveItem} /> : null}
+          onItemSaved={this.saveItem}
+          onItemCancelSaved={this.cancelSaveItem} /> : null}
         <BookAddForm
           onItemAdded={this.addItem} />
       </div>
