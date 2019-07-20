@@ -28,3 +28,7 @@
   margin: 3px;
   flex-grow: 1;
 }
+
+.book-add-form__errortext {
+  color: red;
+}

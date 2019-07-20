@@ -64,13 +64,11 @@ export default class App extends Component {
                         note: note
                       };
 
-      console.log(oldItem, newItem, isEdit);
       const newArray = [
         ...bookData.slice(0, index),
         newItem,
         ...bookData.slice(index + 1)
       ];
-      console.log('Новый массив ', newArray);
 
       return {
         bookData: newArray,
@@ -88,7 +86,7 @@ export default class App extends Component {
   };
 
   deletedItem = (isbn) => {
-    this.setState(({ bookData }) => {
+    this.setState(({ bookData, isEdit }) => {
       const index = bookData.findIndex((el) => el.isbn === isbn);
 
       const newArray = [
@@ -97,7 +95,8 @@ export default class App extends Component {
       ];
 
       return {
-        bookData: newArray
+        bookData: newArray,
+        isEdit: false
       }
     });
   };

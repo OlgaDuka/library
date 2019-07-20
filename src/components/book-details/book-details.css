@@ -43,3 +43,7 @@
   margin: 3px;
   width: 100%;
 }
+
+.book-details__errortext {
+  color: red;
+}

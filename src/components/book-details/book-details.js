@@ -11,7 +11,8 @@ export default class BookDetails extends Component {
       name: bookEdit.name,
       year: bookEdit.year,
       isbn: id,
-      note: bookEdit.note
+      note: bookEdit.note,
+      isValid: true
     };
   }
 
@@ -34,9 +35,7 @@ export default class BookDetails extends Component {
   };
 
   onIsbnChange = (evt) => {
-    this.setState({
-      isbn: evt.target.value
-    });
+
   };
 
   onNoteChange = (evt) => {
@@ -47,15 +46,21 @@ export default class BookDetails extends Component {
 
   onSubmit = (evt) => {
     evt.preventDefault();
+    const validYear=/['0-9']/;
     const { author, name, year, isbn, note } = this.state;
-    this.props.onItemSaved(author, name, year, isbn, note, isbn);
-    this.setState({
-      author: '',
-      name: '',
-      year: '',
-      isbn: '',
-      note: ''
-    });
+    if ((validYear.test(year)) && (year.length === 4)) {
+      this.props.onItemSaved(author, name, year, isbn, note, isbn);
+      this.setState({
+        author: '',
+        name: '',
+        year: '',
+        isbn: '',
+        note: '',
+        isValid: true
+      });
+    } else {
+      this.setState({isValid: false});
+    }
   };
 
   onCancel = () => {
@@ -65,11 +70,13 @@ export default class BookDetails extends Component {
       name: '',
       year: '',
       isbn: '',
-      note: ''
+      note: '',
+      isValid: true
     });
   }
 
   render() {
+    const { author, name, year, isbn, note, isValid } = this.state;
     return (
       <form className='book-details'
         onSubmit={this.onSubmit} >
@@ -78,22 +85,22 @@ export default class BookDetails extends Component {
           <input type='text'
             className='form-control book-details__input'
             onChange={this.onAuthorChange}
-            value={this.state.author} />
+            value={author} />
           <input type='text'
             className='form-control book-details__name'
             onChange={this.onNameChange}
-            value={this.state.name} />
+            value={name} />
           <input type='text'
             className='form-control book-details__input'
             onChange={this.onYearChange}
-            value={this.state.year} />
+            value={year} />
           <input type='text'
             className='form-control book-details__input'
             onChange={this.onIsbnChange}
-            value={this.state.isbn} />
+            value={isbn} />
           <textarea className='form-control book-details__textarea'
             onChange={this.onNoteChange}
-            value={this.state.note} />
+            value={note} />
         </div>
         <div className='book-details__wrap-btn d-flex'>
           <button className='btn btn-outline-secondary book-details__btn'>
@@ -103,6 +110,8 @@ export default class BookDetails extends Component {
             onClick={this.onCancel}>
             Отменить
           </button>
+          {isValid ? null: <h5 className='book-details__errortext'>
+            Поле Год издания заполнено неправильно. Исправьте и попробуйте снова.</h5>}
         </div>
       </form>
     );

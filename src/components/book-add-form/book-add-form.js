@@ -10,7 +10,8 @@ export default class BookAddForm extends Component {
       author: '',
       name: '',
       year: '',
-      isbn: ''
+      isbn: '',
+      isValid: true,
     };
   }
 
@@ -40,17 +41,25 @@ export default class BookAddForm extends Component {
 
   onSubmit = (evt) => {
     evt.preventDefault();
+    const validIsbn=/['0-9','-']/;
+    const validYear=/['0-9']/;
     const { author, name, year, isbn } = this.state;
-    this.props.onItemAdded(author, name, year, isbn);
-    this.setState({
-      author: '',
-      name: '',
-      year: '',
-      isbn: ''
-    });
+    if ((validIsbn.test(isbn)) && (validYear.test(year)) && (year.length === 4)) {
+      this.props.onItemAdded(author, name, year, isbn);
+      this.setState({
+        author: '',
+        name: '',
+        year: '',
+        isbn: '',
+        isValid: true
+      });
+    } else {
+      this.setState({isValid: false});
+    }
   };
 
   render() {
+    const { author, name, year, isbn, isValid } = this.state;
     return (
       <form className='book-add-form d-flex'
         onSubmit={this.onSubmit}>
@@ -60,30 +69,32 @@ export default class BookAddForm extends Component {
             className='form-control book-add-form__input'
             onChange={this.onAuthorChange}
             placeholder='Автор'
-            value={this.state.author}
+            value={author}
             required />
           <input type='text'
             className='form-control book-add-form__name'
             onChange={this.onNameChange}
             placeholder='Наименование'
-            value={this.state.name}
+            value={name}
             required />
           <input type='text'
             className='form-control book-add-form__input'
             onChange={this.onYearChange}
             placeholder='Год издания'
-            value={this.state.year}
+            value={year}
             required />
           <input type='text'
             className='form-control book-add-form__input'
             onChange={this.onIsbnChange}
             placeholder='ISBN'
-            value={this.state.isbn}
+            value={isbn}
             required />
         </div>
         <button className='btn btn-outline-secondary book-add-form__btn'>
             Добавить книгу
         </button>
+        {isValid ? null: <h5 className='book-add-form__errortext'>
+          Код ISBN или Год издания заполнены неправильно. Исправьте и попробуйте снова.</h5>}
       </form>
     );
   }
